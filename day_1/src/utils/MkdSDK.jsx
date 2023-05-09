@@ -2,7 +2,7 @@ export default function MkdSDK() {
   this._baseurl = "https://reacttask.mkdlabs.com";
   this._project_id = "reacttask";
   this._secret = "d9hedycyv6p7zw8xi34t9bmtsjsigy5t7";
-  this._table = "";
+  this._table = "video";
   this._custom = "";
   this._method = "";
 
@@ -14,8 +14,40 @@ export default function MkdSDK() {
   };
   
   this.login = async function (email, password, role) {
-    //TODO
-  };
+    try {
+      const url = 'https://reacttask.mkdlabs.com/v2/api/lambda/login';
+      const headers = {
+        'Content-Type': 'application/json',
+        'x-project': 'cmVhY3R0YXNrOmQ5aGVkeWN5djZwN3p3OHhpMzR0OWJtdHNqc2lneTV0Nw=='
+      };
+      const data = {
+        email: email,
+        password: password,
+        role: role
+      };
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data)
+      });
+      const responseData = await response.json();
+  
+      if (responseData.error) {
+        // Handle the error case
+        // console.error('Login error:', responseData);
+        return null;
+      }
+  
+      // Handle the successful login case
+      // console.log('Login successful:', responseData);
+      localStorage.setItem('token', responseData.token);
+      return responseData;
+    } catch (error) {
+      // console.error('Login error:', error);
+      return null;
+    }
+  };  
 
   this.getHeader = function () {
     return {
@@ -86,9 +118,78 @@ export default function MkdSDK() {
     }
   };  
 
+  
   this.check = async function (role) {
-    //TODO
+    try {
+      const url = 'https://reacttask.mkdlabs.com/v2/api/lambda/check';
+      const headers = {
+        'Content-Type': 'application/json',
+        'x-project': 'cmVhY3R0YXNrOmQ5aGVkeWN5djZwN3p3OHhpMzR0OWJtdHNqc2lneTV0Nw==',
+        'Authorization': "Bearer " + localStorage.getItem("token"),
+      };
+      const data = {
+        role: role
+      };
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data)
+      });
+  
+      if (response.status === 200) {
+        console.log('Token is valid');
+        return true;
+      } else {
+        console.log('Token is invalid');
+        return false;
+      }
+    } catch (error) {
+      console.error('Check error:', error);
+      return false; 
+    }
   };
+
+  this.logout = function () {
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    window.location.href = '/admin/login';
+  };
+  
+
+  // this.dashboardData = async () => {
+  //   try {
+  //     const response = await fetch("https://reacttask.mkdlabs.com/v1/api/rest/video/PAGINATE", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "x-project": "cmVhY3R0YXNrOmQ5aGVkeWN5djZwN3p3OHhpMzR0OWJtdHNqc2lneTV0Nw==",
+  //         Authorization: "Bearer " + localStorage.getItem("token"),
+  //       },
+  //       body: JSON.stringify({
+  //         payload: {},
+  //         page: 1,
+  //         limit: 10,
+  //       }),
+  //     });
+  
+  //     if (response.error) {
+  //       const data = await response.json();
+  //       if (data.error) {
+  //         throw new Error("API response contains an error");
+  //       }
+  //       return data;
+  //     } else {
+        
+  //       throw new Error("Failed to fetch dashboard data");
+  //       return data;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching dashboard data:", error);
+  //     throw error;
+  //   }
+  // };
 
   return this;
 }
+

@@ -11,27 +11,23 @@ function renderRoutes(role) {
     case "admin":
       return (
         <Routes>
-          <Route
-            path="/admin/dashboard"
-            element={<AdminDashboardPage />}
-          ></Route>
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="*" element={<Navigate to="/admin/dashboard" />} />
         </Routes>
       );
-      break;
     default:
       return (
         <Routes>
-          <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
-          <Route path="*" exact element={<NotFoundPage />}></Route>
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       );
-      break;
   }
 }
 
 function Main() {
   const { state } = React.useContext(AuthContext);
-
   return (
     <div className="h-full">
       <div className="flex w-full">

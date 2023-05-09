@@ -13,9 +13,11 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      //TODO
       return {
         ...state,
+        isAuthenticated: true,
+        user: action.payload.user,
+        role: action.payload.role
       };
     case "LOGOUT":
       localStorage.clear();
@@ -23,6 +25,7 @@ const reducer = (state, action) => {
         ...state,
         isAuthenticated: false,
         user: null,
+        role: null,
       };
     default:
       return state;
@@ -30,7 +33,6 @@ const reducer = (state, action) => {
 };
 
 let sdk = new MkdSDK();
-
 export const tokenExpireError = (dispatch, errorMessage) => {
   const role = localStorage.getItem("role");
   if (errorMessage === "TOKEN_EXPIRED") {
