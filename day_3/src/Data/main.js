@@ -37,7 +37,7 @@ let quiz = [
   },
   {
     "id": 5,
-    "type": "description",
+    "type": "long_text",
     "question": "random text to show to the user",
     "answers": [],
     "correct_answer": 0
@@ -50,3 +50,5 @@ let quiz = [
     "correct_answer": 2
   }
 ];
+
+export default quiz

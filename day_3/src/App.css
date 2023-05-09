@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+
+.quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.question-container,
+.result-container {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.next-prev-btns{
+  margin-top: 5px;
+  /* justify-items: 20px; */
+}
