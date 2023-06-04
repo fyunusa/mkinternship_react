@@ -1,16 +1,16 @@
 import React, { createContext, useState } from 'react';
+import QuizData from '../data/Questions';
 
 export const QuestionContext = createContext();
 
 export const QuestionProvider = ({ children }) => {
-  const [selectedQuestion, setSelectedQuestion] = useState({});
+  const [allQuestion, setAllQuestion] = useState({'all':QuizData, 'selectedOne': []});
 
   return (
-    <QuestionContext.Provider value={{ selectedQuestion, setSelectedQuestion }}>
+    <QuestionContext.Provider value={{ allQuestion, setAllQuestion }}>
       {children}
     </QuestionContext.Provider>
   );
 };
 
-// export const SelectedQuestionContext = QuestionContext;
 export default QuestionProvider;
