@@ -4,25 +4,35 @@ import { QuestionContext } from './QuestionContext';
 
 const Header = ({ handleTabSelect }) => {
   const { allQuestion } = useContext(QuestionContext);
+  const [showDropdown, setShowDropdown] = React.useState(false);
+
 
   const handlePublish = () => {
     // Convert the selectedQuestion object to JSON string
     const jsonData = JSON.stringify(allQuestion.all);
-    
-    const serverURL = 'http://localhost:3001/publishQuestion'; 
+
+    const serverURL = 'http://localhost:3001/publishQuestion';
 
     // Send a POST request to the server
-    axios.post(serverURL, jsonData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
+    axios
+      .post(serverURL, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
         console.log('JSON data published successfully!');
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error publishing JSON data:', error);
       });
+  };
+
+
+  const handleLogout = () => {
+    // Perform logout logic here
+    // console.log('Logged out');
+    window.location.reload(); // Refresh the page
   };
 
   return (
@@ -39,7 +49,16 @@ const Header = ({ handleTabSelect }) => {
       <div className='menu-header-right'>
         <button onClick={handlePublish}>Publish</button>
         <div className='circle'>
-          <h4>FY</h4>
+          <button onClick={() => setShowDropdown(!showDropdown)}>
+            FY
+          </button>
+          {showDropdown && (
+            <div className='circle-dropdown'>
+              <button onClick={handleLogout} className='dropdown-button'>
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

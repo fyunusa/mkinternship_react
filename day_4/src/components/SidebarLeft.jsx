@@ -40,32 +40,35 @@ export default function LeftSide() {
     setAllQuestion(allQuestion => {
       const updatedQuestion = { ...receivedQuestion };
   
-      // Check the question type
-      switch (updatedQuestion.type) {
-        case 'multiple_selection_choice':
-        case 'multiple_choice':
-          // Initialize the answers array with four empty slots
-          updatedQuestion.answers = Array(4).fill().map((_, index) => ({ id: index.toString(), answer: '' }));
-          break;
-        case 'short_answer':
-          // Initialize the answers array with a single empty slot
-          updatedQuestion.answers = [{ id: '0', answer: '' }];
-          break;
-        case 'true_false':
-          // Initialize the answers array with two options: true and false
-          updatedQuestion.answers = [
-            { id: 'true', answer: 'true' },
-            { id: 'false', answer: 'false' }
-          ];
-          break;
-        case 'long_text':
-          // Set the answers array as an empty array
-          updatedQuestion.answers = [{ id: '0', answer: '' }];
-          break;
-        default:
-          // For unknown question types, set the answers array as an empty array
-          updatedQuestion.answers = [];
-          break;
+      // Check if the answers array is empty
+      if (updatedQuestion.answers.length === 0) {
+        // Check the question type
+        switch (updatedQuestion.type) {
+          case 'multiple_selection_choice':
+          case 'multiple_choice':
+            // Initialize the answers array with four empty slots
+            updatedQuestion.answers = Array(4).fill().map((_, index) => ({ id: index.toString(), answer: '' }));
+            break;
+          case 'short_answer':
+            // Initialize the answers array with a single empty slot
+            updatedQuestion.answers = [{ id: '0', answer: '' }];
+            break;
+          case 'true_false':
+            // Initialize the answers array with two options: true and false
+            updatedQuestion.answers = [
+              { id: 'true', answer: 'true' },
+              { id: 'false', answer: 'false' }
+            ];
+            break;
+          case 'long_text':
+            // Set the answers array as an empty array
+            updatedQuestion.answers = [{ id: '0', answer: '' }];
+            break;
+          default:
+            // For unknown question types, set the answers array as an empty array
+            updatedQuestion.answers = [];
+            break;
+        }
       }
   
       return {
@@ -74,6 +77,7 @@ export default function LeftSide() {
       };
     });
   };
+  
   
 
   const renderRows = () => {
