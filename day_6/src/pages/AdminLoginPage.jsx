@@ -5,6 +5,7 @@ import * as yup from "yup";
 import MkdSDK from "../utils/MkdSDK";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../authContext";
+import SnackBar from "../components/SnackBar";
 
 const AdminLoginPage = () => {
   const schema = yup
@@ -26,9 +27,36 @@ const AdminLoginPage = () => {
   });
 
   const onSubmit = async (data) => {
-    let sdk = new MkdSDK();
-    //TODO
+    try {
+      let sdk = new MkdSDK();
+      // console.log(sdk)
+      const response = await sdk.login(data.email, data.password, "admin");
+  
+      if (response && !response.error) {
+        // Login successful
+        // console.log("Login successful:", response);
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            user: response.user,
+            role: response.role,
+            token: response.token
+          },
+        });
+        dispatch({ type: "SNACKBAR", payload: { message: "Logged in successfully" } });
+        navigate("/admin/dashboard");
+      } else {
+        console.log(response)
+        setError("email", { message: "Invalid email or password" });
+        setError("password", { message: "Invalid email or password" });
+      }
+    } catch (error) {
+      // console.error("Login error:", error);
+      setError("email", { message: "An error occurred during login" });
+      setError("password", { message: "An error occurred during login" });
+    }
   };
+  
 
   return (
     <div className="w-full max-w-xs mx-auto">

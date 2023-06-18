@@ -14,8 +14,42 @@ export default function MkdSDK() {
   };
   
   this.login = async function (email, password, role) {
-    //TODO
-  };
+    try {
+      const url = 'https://reacttask.mkdlabs.com/v2/api/lambda/login';
+      const headers = {
+        'Content-Type': 'application/json',
+        'x-project': 'cmVhY3R0YXNrOmQ5aGVkeWN5djZwN3p3OHhpMzR0OWJtdHNqc2lneTV0Nw=='
+      };
+      const data = {
+        email: email,
+        password: password,
+        role: role
+      };
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data)
+      });
+      const responseData = await response.json();
+  
+      if (responseData.error) {
+        // Handle the error case
+        // console.error('Login error:', responseData);
+        return null;
+      }
+  
+      // Handle the successful login case and set token on localstorage
+      localStorage.setItem('token', responseData.token);
+      localStorage.setItem('user', responseData.user);
+      localStorage.setItem('role', responseData.role);
+      // console.log('token set successfully')
+      return responseData;
+    } catch (error) {
+      // console.error('Login error:', error);
+      return null;
+    }
+  };  
 
   this.getHeader = function () {
     return {
@@ -87,7 +121,40 @@ export default function MkdSDK() {
   };  
 
   this.check = async function (role) {
-    //TODO
+    try {
+      const url = 'https://reacttask.mkdlabs.com/v2/api/lambda/check';
+      const headers = {
+        'Content-Type': 'application/json',
+        'x-project': 'cmVhY3R0YXNrOmQ5aGVkeWN5djZwN3p3OHhpMzR0OWJtdHNqc2lneTV0Nw==',
+        'Authorization': "Bearer " + localStorage.getItem("token"),
+      };
+      const data = {
+        role: role
+      };
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data)
+      });
+  
+      if (response.status === 200) {
+        console.log('Token is valid');
+        return true;
+      } else {
+        console.log('Token is invalid');
+        return false;
+      }
+    } catch (error) {
+      console.error('Check error:', error);
+      return false; 
+    }
+  };
+
+  this.logout = function () {
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    window.location.href = '/admin/login';
   };
 
   return this;

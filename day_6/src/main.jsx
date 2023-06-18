@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "./authContext";
 import { Routes, Route, Navigate } from "react-router-dom";
 import SnackBar from "./components/SnackBar";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
+import FlowPage from "./pages/FlowPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function renderRoutes(role) {
@@ -11,13 +12,10 @@ function renderRoutes(role) {
     case "admin":
       return (
         <Routes>
-          <Route
-            path="/admin/dashboard"
-            element={<AdminDashboardPage />}
-          ></Route>
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin/flowPage" element={<FlowPage />} />
         </Routes>
       );
-      break;
     default:
       return (
         <Routes>
@@ -25,12 +23,13 @@ function renderRoutes(role) {
           <Route path="*" exact element={<NotFoundPage />}></Route>
         </Routes>
       );
-      break;
   }
 }
 
 function Main() {
-  const { state } = React.useContext(AuthContext);
+  const { state } = useContext(AuthContext);
+
+  // console.log(state)
 
   return (
     <div className="h-full">

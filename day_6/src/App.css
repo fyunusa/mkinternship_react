@@ -40,3 +40,48 @@
 button {
   font-size: calc(10px + 2vmin);
 }
+
+
+
+/* my own styling */
+.header--main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.header--left-section {
+  display: flex;
+  align-items: center;
+}
+
+.header--left-section button {
+  margin-right: 10px;
+}
+
+.header--middle-section {
+  display: flex;
+  align-items: center;
+}
+
+.header--middle-section span {
+  margin: 0 5px;
+}
+
+.header--right-section {
+  display: flex;
+  align-items: center;
+}
+
+.header--eye-icon {
+  margin-right: 10px;
+}
+
+.header--screen-view-btn {
+  margin: 0 5px;
+}
+
+.header--screen-view {
+  margin: 0 5px;
+}
