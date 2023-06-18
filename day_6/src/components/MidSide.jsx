@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import ReactFlow, {
   Controls,
   Background,
@@ -7,69 +7,131 @@ import ReactFlow, {
   addEdge,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
+import ShapeContext from './ShapeContext';
 
 const MidSection = () => {
-    return (
-        <div className="bg-light card p-3" style={{height: '100%' }}>
-            <Flow />
-        </div>
-    );
-};
+  const [shapeNode, setShapeNode] = useState(null);
+  const { selectedShape } = useContext(ShapeContext);
 
-const edg1 = { id: '1-2', source: '1', target: '2', label: 'to the', type: 'step' };
-const edg2 = { id: '1-3', source: '1', target: '3' };
-const initialEdges = [edg1, edg2];
+  useEffect(() => {
+    if (selectedShape) {
+      const shapeIcon = getShapeIcon(selectedShape);
 
-const initialNodes = [
-    {
-      id: '1',
-      data: { label: 'Hello' },
-      position: { x: 0, y: 0 },
-      type: 'input',
-    },
-    {
-      id: '2',
-      data: { label: 'World' },
-      position: { x: 100, y: 75 },
-    },
-    {
-      id: '3',
-      data: { label: 'New Life' },
-      position: { x: 0, y: 150 },
-    },
-    {
-      id: '4',
-      data: { label: 'Good Life' },
-      position: { x: 200, y: 150 },
+      const newNode = {
+        id: 'shapeNode',
+        data: { label: selectedShape },
+        position: { x: 300, y: 150 },
+        style: {
+          background: 'transparent',
+          border: 'none',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        targetPosition: 'left',
+        sourcePosition: 'right',
+        draggable: false,
+        render: ({ style }) => (
+          <div style={{ ...style, color: 'white' }}>
+            <i className={`fas ${shapeIcon}`} style={{ fontSize: '30px' }}></i>
+          </div>
+        ),
+      };
+
+      setShapeNode(newNode);
     }
-  ];
-  
+  }, [selectedShape]);
+
   const Flow = () => {
+    const [nodes, setNodes] = useState([]);
+    const [edges, setEdges] = useState([]);
 
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+    useEffect(() => {
+      const initialNodes = [
+        {
+          id: '1',
+          data: { label: 'Hello' },
+          position: { x: 0, y: 0 },
+          type: 'input',
+        },
+        {
+          id: '2',
+          data: { label: 'World' },
+          position: { x: 100, y: 75 },
+        },
+        {
+          id: '3',
+          data: { label: 'New Life' },
+          position: { x: 0, y: 150 },
+        },
+        {
+          id: '4',
+          data: { label: 'Good Life' },
+          position: { x: 200, y: 150 },
+        },
+      ];
 
-  const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
-  );
-  const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    []
-  );
+      if (shapeNode) {
+        const updatedNodes = [...initialNodes, shapeNode];
+        setNodes(updatedNodes);
+      } else {
+        setNodes(initialNodes);
+      }
+    }, [shapeNode]);
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
-  
+    const onNodesChange = useCallback(
+      (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+      []
+    );
+
+    const onEdgesChange = useCallback(
+      (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+      []
+    );
+
+    const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+
+    const getShapeIcon = (shapeType) => {
+        switch (shapeType) {
+          case 'Circle':
+            return 'fa-circle';
+          case 'Rectangle':
+            return 'fa-square';
+          case 'Triangle':
+            return 'fa-caret-up';
+          case 'Square':
+            return 'fa-square';
+          case 'Star':
+            return 'fa-star';
+          case 'Certificate':
+            return 'fa-certificate';
+          case 'Heart':
+            return 'fa-heart';
+          case 'Database':
+            return 'fa-database';
+          case 'Diamond':
+            return 'fa-gem';
+          case 'Cross':
+            return 'fa-times';
+          case 'Oval':
+            return 'fa-circle';
+          case 'Arrow':
+            return 'fa-arrow-right';
+          default:
+            return '';
+        }
+      };
+
     return (
       <div style={{ height: '100vh', backgroundColor: 'midnightblue', display: 'flex' }}>
         <div style={{ flex: 1 }}>
           <ReactFlow
-           nodes={nodes} 
-           style={{ height: '100%' }}
-           edges={edges}           
-           onNodesChange={onNodesChange}
-           onEdgesChange={onEdgesChange}
-           onConnect={onConnect}
+            nodes={nodes}
+            style={{ height: '100%' }}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
           >
             <Background />
             <Controls />
@@ -77,6 +139,13 @@ const initialNodes = [
         </div>
       </div>
     );
-}
+  };
+
+  return (
+    <div className="bg-light card p-3" style={{ height: '100%' }}>
+      <Flow />
+    </div>
+  );
+};
 
 export default MidSection;

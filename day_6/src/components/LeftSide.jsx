@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import '../../css/shapes.css';
+import React, { useState, useCallback, useContext } from 'react';
+import ShapeContext from './ShapeContext';
 
 const LeftSection = () => {
   return (
@@ -10,13 +10,22 @@ const LeftSection = () => {
 };
 
 const Shapes = () => {
-  const [selectedShape, setSelectedShape] = useState(null);
+  const { handleShapeClick, selectedShape } = useContext(ShapeContext);
 
-  const handleShapeClick = useCallback((shapeType) => {
-    setSelectedShape(shapeType);
-  }, []);
-
-  const shapeTypes = ['Circle', 'Rectangle', 'Triangle', 'Square', 'Star', 'certificate', 'Heart', 'database', 'Diamond', 'Cross', 'Oval', 'Arrow'];
+  const shapeTypes = [
+    'Circle',
+    'Rectangle',
+    'Triangle',
+    'Square',
+    'Star',
+    'certificate',
+    'Heart',
+    'database',
+    'Diamond',
+    'Cross',
+    'Oval',
+    'Arrow',
+  ];
 
   const shapeIcons = {
     Circle: 'fa-circle',
@@ -33,15 +42,23 @@ const Shapes = () => {
     Arrow: 'fa-arrow-right',
   };
 
+  const handleShapeButtonClick = useCallback(
+    (shapeType) => {
+      handleShapeClick(shapeType);
+    },
+    [handleShapeClick]
+  );
+
   const renderShapeButtons = () => {
-    return shapeTypes.map((shapeType) => (
+    return shapeTypes.map((shapeType, index) => (
       <ShapeButton
         key={shapeType}
         shapeType={shapeType}
         isSelected={selectedShape === shapeType}
-        onClick={handleShapeClick}
+        onClick={handleShapeButtonClick}
       >
-        <i className={`fas ${shapeIcons[shapeType]}`}></i>
+        <i className={`fas ${shapeIcons[shapeType]}`} style={{ fontSize: '70px' }}></i>
+        <div>{shapeType}</div>
       </ShapeButton>
     ));
   };
@@ -58,16 +75,8 @@ const Shapes = () => {
       }}
     >
       <div>
-        <h2 style={{ color: 'white', textAlign: 'center' }}>
-          Click on a shape to select it:
-        </h2>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}
-        >
+        <h2 style={{ color: 'white', textAlign: 'center' }}>Click on a shape to select it:</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
           {renderShapeButtons()}
         </div>
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
@@ -92,7 +101,6 @@ const ShapeButton = ({ shapeType, isSelected, onClick, children }) => {
       onClick={() => onClick(shapeType)}
     >
       {children}
-      <div>{shapeType}</div>
     </button>
   );
 };
@@ -168,7 +176,5 @@ const SelectedShape = ({ shapeType }) => {
     </div>
   );
 };
-
-
 
 export default LeftSection;
