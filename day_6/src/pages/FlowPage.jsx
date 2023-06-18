@@ -7,9 +7,9 @@ import MidSection from '../components/MidSide';
 const FlowPage = () => {
 
   return (
-    <div style={{ backgroundColor: 'crimson', height: '900px'}}>
+    <div style={{ height: '900px'}}>
       <HeaderBar />
-      <div className='section' style={{ display: 'flex', height: '90%' }}>
+      <div className='section' style={{ display: 'flex', height: '90%'}}>
         <div style={{ width: '30%', height: '100%' }}>
           <LeftSection />
         </div>

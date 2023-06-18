@@ -12,8 +12,8 @@ function renderRoutes(role) {
     case "admin":
       return (
         <Routes>
-          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
           <Route path="/admin/flowPage" element={<FlowPage />} />
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         </Routes>
       );
     default:
