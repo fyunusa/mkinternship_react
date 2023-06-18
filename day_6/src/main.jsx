@@ -14,6 +14,7 @@ function renderRoutes(role) {
         <Routes>
           <Route path="/admin/flowPage" element={<FlowPage />} />
           <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
         </Routes>
       );
     default:
