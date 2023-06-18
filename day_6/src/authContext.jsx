@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-  console.log("i am from reducer")
+  // console.log("i am from reducer")
   console.log(state)
   switch (action.type) {
     case "LOGIN":
