@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useContext } from 'react';
 import ShapeContext from './ShapeContext';
+import '../../css/shapes.css'; // Import the shapes.css file
+
 
 const LeftSection = () => {
   return (
@@ -13,34 +15,24 @@ const Shapes = () => {
   const { handleShapeClick, selectedShape } = useContext(ShapeContext);
 
   const shapeTypes = [
-    'Circle',
-    'Rectangle',
-    'Triangle',
-    'Square',
-    'Star',
-    'certificate',
-    'Heart',
-    'database',
-    'Diamond',
-    'Cross',
-    'Oval',
-    'Arrow',
+    'circle',
+    'rectangle',
+    'triangle',
+    'square',
+    'polygon',
+    'hexagon',
+    'heptagon',
+    'octagon',
+    'bevel',
+    'rabbet',
+    'leftPoint',
+    'rightPoint',
+    'star',
+    'cross',
+    'ellipse',
+    'rhombus',
+    'parallelogram'
   ];
-
-  const shapeIcons = {
-    Circle: 'fa-circle',
-    Rectangle: 'fa-square',
-    Triangle: 'fa-caret-up',
-    Square: 'fa-square',
-    Star: 'fa-star',
-    certificate: 'fa-certificate',
-    Heart: 'fa-heart',
-    database: 'fa-database',
-    Diamond: 'fa-gem',
-    Cross: 'fa-times',
-    Oval: 'fa-circle',
-    Arrow: 'fa-arrow-right',
-  };
 
   const handleShapeButtonClick = useCallback(
     (shapeType) => {
@@ -57,11 +49,12 @@ const Shapes = () => {
         isSelected={selectedShape === shapeType}
         onClick={handleShapeButtonClick}
       >
-        <i className={`fas ${shapeIcons[shapeType]}`} style={{ fontSize: '70px' }}></i>
+        <div className={`shape ${shapeType}`} style={{ width: '100%', height: '50px' }}></div>
         <div>{shapeType}</div>
       </ShapeButton>
     ));
   };
+  
 
   return (
     <div
@@ -72,11 +65,19 @@ const Shapes = () => {
         justifyContent: 'center',
         alignItems: 'center',
         padding: '1%',
+        overflow: 'auto', // Add overflow property for scrolling
       }}
     >
       <div>
         <h2 style={{ color: 'white', textAlign: 'center' }}>Click on a shape to select it:</h2>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: 'grid', // Use CSS Grid for grid layout
+            gridTemplateColumns: 'repeat(3, 1fr)', // Display three shapes per row
+            gap: '5px', // Add gap between shapes
+            width: '100%', // Set the width to 100% to prevent horizontal overflow
+          }}
+        >
           {renderShapeButtons()}
         </div>
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
@@ -85,13 +86,14 @@ const Shapes = () => {
       </div>
     </div>
   );
+  
 };
 
 const ShapeButton = ({ shapeType, isSelected, onClick, children }) => {
   return (
     <button
       style={{
-        padding: '10px',
+        padding: '5px',
         margin: '5px',
         backgroundColor: isSelected ? 'lightblue' : 'transparent',
         border: isSelected ? '2px solid darkblue' : '2px solid white',
@@ -108,73 +110,14 @@ const ShapeButton = ({ shapeType, isSelected, onClick, children }) => {
 const SelectedShape = ({ shapeType }) => {
   if (!shapeType) return null;
 
-  let shapeIcon;
-  let shapeColor;
-
-  switch (shapeType) {
-    case 'Circle':
-      shapeIcon = 'fa-circle';
-      shapeColor = '#ff6384';
-      break;
-    case 'Rectangle':
-      shapeIcon = 'fa-square';
-      shapeColor = '#36a2eb';
-      break;
-    case 'Triangle':
-      shapeIcon = 'fa-caret-up';
-      shapeColor = '#ffce56';
-      break;
-    case 'Square':
-      shapeIcon = 'fa-square';
-      shapeColor = '#ff6384';
-      break;
-    case 'Star':
-      shapeIcon = 'fa-star';
-      shapeColor = '#36a2eb';
-      break;
-    case 'certificate':
-      shapeIcon = 'fa-certificate';
-      shapeColor = '#ffce56';
-      break;
-    case 'Heart':
-      shapeIcon = 'fa-heart';
-      shapeColor = '#ff6384';
-      break;
-    case 'database':
-      shapeIcon = 'fa-database';
-      shapeColor = '#36a2eb';
-      break;
-    case 'Diamond':
-      shapeIcon = 'fa-gem';
-      shapeColor = '#ffce56';
-      break;
-    case 'Cross':
-      shapeIcon = 'fa-times';
-      shapeColor = '#ff6384';
-      break;
-    case 'Oval':
-      shapeIcon = 'fa-circle';
-      shapeColor = '#36a2eb';
-      break;
-    case 'Arrow':
-      shapeIcon = 'fa-arrow-right';
-      shapeColor = '#ffce56';
-      break;
-    default:
-      shapeIcon = null;
-      shapeColor = null;
-  }
-
-  const iconStyle = {
-    fontSize: '70px',
-    color: shapeColor,
-  };
+  const shapeClassName = `shape ${shapeType}`; // Use shape class
 
   return (
     <div className="selected-shape">
-      {shapeIcon && <i className={`fas ${shapeIcon}`} style={iconStyle}></i>}
+      <div className={shapeClassName} style={{ width: '70px', height: '70px' }}></div>
     </div>
   );
 };
+
 
 export default LeftSection;

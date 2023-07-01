@@ -44,9 +44,10 @@ const AdminLoginPage = () => {
           },
         });
         dispatch({ type: "SNACKBAR", payload: { message: "Logged in successfully" } });
-        navigate("/admin/dashboard");
+        // navigate("/admin/dashboard");
+        navigate("/admin/flowPage");
       } else {
-        console.log(response)
+        // console.log(response)
         setError("email", { message: "Invalid email or password" });
         setError("password", { message: "Invalid email or password" });
       }

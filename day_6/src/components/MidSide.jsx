@@ -10,35 +10,36 @@ import 'reactflow/dist/style.css';
 import ShapeContext from './ShapeContext';
 
 const getShapeIcon = (shapeType) => {
-        switch (shapeType) {
-          case 'Circle':
-            return 'fa-circle';
-          case 'Rectangle':
-            return 'fa-square';
-          case 'Triangle':
-            return 'fa-caret-up';
-          case 'Square':
-            return 'fa-square';
-          case 'Star':
-            return 'fa-star';
-          case 'Certificate':
-            return 'fa-certificate';
-          case 'Heart':
-            return 'fa-heart';
-          case 'Database':
-            return 'fa-database';
-          case 'Diamond':
-            return 'fa-gem';
-          case 'Cross':
-            return 'fa-times';
-          case 'Oval':
-            return 'fa-circle';
-          case 'Arrow':
-            return 'fa-arrow-right';
-          default:
-            return '';
-        }
-      };
+    switch (shapeType) {
+        case 'Circle':
+        return 'fa-circle';
+        case 'Rectangle':
+        return 'fa-square';
+        case 'Triangle':
+        return 'fa-caret-up';
+        case 'Square':
+        return 'fa-square';
+        case 'Star':
+        return 'fa-star';
+        case 'Certificate':
+        return 'fa-certificate';
+        case 'Heart':
+        return 'fa-heart';
+        case 'Database':
+        return 'fa-database';
+        case 'Diamond':
+        return 'fa-gem';
+        case 'Cross':
+        return 'fa-times';
+        case 'Oval':
+        return 'fa-circle';
+        case 'Arrow':
+        return 'fa-arrow-right';
+        default:
+        return '';
+    }
+};
+
 const MidSection = () => {
   const [shapeNode, setShapeNode] = useState(null);
   const { selectedShape } = useContext(ShapeContext);
