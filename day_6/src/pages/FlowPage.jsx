@@ -4,6 +4,8 @@ import LeftSection from '../components/LeftSide';
 import RightSection from '../components/RightSide';
 import MidSection from '../components/MidSide';
 import { ShapeProvider } from '../components/ShapeContext';
+import CustomTextNode from '../components/CustomShapeNode';
+
 
 const FlowPage = () => {
 
@@ -23,6 +25,7 @@ const FlowPage = () => {
           </div>
         </div>
       </div>
+      
     </ShapeProvider>
    
   );
