@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import ShapeContext from './ShapeContext';
 import { Handle, Position } from 'reactflow';
 
@@ -6,18 +6,29 @@ const handleStyle = { left: 10 };
 
 function CustomTextNode({ data, isConnectable }) {
   const { selectedShape } = useContext(ShapeContext);
+  const [text, setText] = useState('Text');
 
-  let shapeChosen = 'square'; // Declare shapeChosen variable outside the if statement
+  let shapeChosen = 'square';
 
   if (selectedShape) {
-    shapeChosen = selectedShape; // Assign value inside the if block
+    shapeChosen = selectedShape;
   }
+
+  const handleChange = (event) => {
+    setText(event.target.value);
+  };
 
   return (
     <div className={`text-updater-node ${shapeChosen}`}>
       <Handle type="target" isConnectable={isConnectable} />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <input id="text" name="text" value="Text" style={{ textAlign: 'center' }} />
+        <input
+          id="text"
+          name="text"
+          value={text}
+          onChange={handleChange}
+          style={{ textAlign: 'center' }}
+        />
       </div>
       <Handle
         type="source"

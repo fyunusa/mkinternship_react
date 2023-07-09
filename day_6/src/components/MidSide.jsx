@@ -20,6 +20,9 @@ const MidSection = () => {
   const [shapeNodes, setShapeNodes] = useState([]);
   const { selectedShape } = useContext(ShapeContext);
 
+  console.log("current shape state");
+  console.log(shapeNodes)
+
   useEffect(() => {
     if (selectedShape) {
       const newNode = {
@@ -61,10 +64,12 @@ const MidSection = () => {
     }
   ];
 
+  const [edges, setEdges] = useState([]);
+
 
   const Flow = () => {
     const [nodes, setNodes] = useState([]);
-    const [edges, setEdges] = useState([]);
+    // const [edges, setEdges] = useState([]);
 
     useEffect(() => {
       const allNodes = [...initialNodes, ...shapeNodes];
@@ -81,8 +86,23 @@ const MidSection = () => {
       (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
       []
     );
+    // console.log(edges)
 
     const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+
+    // const onNodeDrag = useCallback(
+    //   (event, node) => {
+    //     const updatedNodes = nodes.map((n) => {
+    //       if (n.id === node.id) {
+    //         return { ...n, position: node.position };
+    //       }
+    //       return n;
+    //     });
+    
+    //     setNodes(updatedNodes);
+    //   },
+    //   [nodes]
+    // );
 
     const onNodeDrag = useCallback(
       (event, node) => {
@@ -91,12 +111,12 @@ const MidSection = () => {
             return { ...shapeNode, position: node.position };
           }
           return shapeNode;
-        });
-  
-        setNodes(updatedNodes);
+        });  
+        setShapeNodes(updatedNodes);
       },
-      [nodes]
+      [shapeNodes]
     );
+    
 
     
     return (
