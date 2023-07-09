@@ -20,8 +20,8 @@ const MidSection = () => {
   const [shapeNodes, setShapeNodes] = useState([]);
   const { selectedShape } = useContext(ShapeContext);
 
-  console.log("current shape state");
-  console.log(shapeNodes)
+  // console.log("current shape state");
+  // console.log(shapeNodes)
 
   useEffect(() => {
     if (selectedShape) {
@@ -32,10 +32,16 @@ const MidSection = () => {
         type: 'textUpdater',
         render: ({ style }) => <div style={{ ...style, color: 'white' }}></div>,
       };
-
-      setShapeNodes((prevShapeNodes) => [...prevShapeNodes, newNode]);
-
-      console.log(shapeNodes);
+      // console.log([prevShapeNodes, newNode])
+      setShapeNodes((prevShapeNodes) => {
+        // console.log("begin prev shape nodea");
+        console.log([...prevShapeNodes, newNode]);
+        // console.log("end prev shape nodes");
+        return [...prevShapeNodes, newNode];
+      });
+      // console.log("begin after setshape node");
+      // console.log(shapeNodes);
+      // console.log("end after set shape node");
     }
   }, [selectedShape]);
 
@@ -73,6 +79,7 @@ const MidSection = () => {
 
     useEffect(() => {
       const allNodes = [...initialNodes, ...shapeNodes];
+      console.log(allNodes);
       setNodes(allNodes);
       // console.log(allNodes)
     }, [shapeNodes]);
@@ -89,20 +96,6 @@ const MidSection = () => {
     // console.log(edges)
 
     const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
-
-    // const onNodeDrag = useCallback(
-    //   (event, node) => {
-    //     const updatedNodes = nodes.map((n) => {
-    //       if (n.id === node.id) {
-    //         return { ...n, position: node.position };
-    //       }
-    //       return n;
-    //     });
-    
-    //     setNodes(updatedNodes);
-    //   },
-    //   [nodes]
-    // );
 
     const onNodeDrag = useCallback(
       (event, node) => {
