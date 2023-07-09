@@ -31,6 +31,8 @@ const MidSection = () => {
       };
 
       setShapeNodes((prevShapeNodes) => [...prevShapeNodes, newNode]);
+
+      console.log(shapeNodes);
     }
   }, [selectedShape]);
 
@@ -67,6 +69,7 @@ const MidSection = () => {
     useEffect(() => {
       const allNodes = [...initialNodes, ...shapeNodes];
       setNodes(allNodes);
+      // console.log(allNodes)
     }, [shapeNodes]);
 
     const onNodesChange = useCallback(
@@ -81,6 +84,20 @@ const MidSection = () => {
 
     const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
 
+    const onNodeDrag = useCallback(
+      (event, node) => {
+        const updatedNodes = shapeNodes.map((shapeNode) => {
+          if (shapeNode.id === node.id) {
+            return { ...shapeNode, position: node.position };
+          }
+          return shapeNode;
+        });
+  
+        setNodes(updatedNodes);
+      },
+      [nodes]
+    );
+
     
     return (
       <div style={{ height: '100vh', backgroundColor: 'midnightblue', display: 'flex' }}>
@@ -92,6 +109,7 @@ const MidSection = () => {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            onNodeDragStop={onNodeDrag}
             nodeTypes={nodeTypes}
           >
             <Background />

@@ -23,6 +23,21 @@ app.post('/publishQuestion', (req, res) => {
   });
 });
 
+app.post('/userFlowShape.json', (req, res) => {
+  const jsonData = req.body;
+
+  // Write the JSON data to a file
+  fs.writeFile('./data/FlowShape.json', JSON.stringify(jsonData), err => {
+    if (err) {
+      console.error('Error writing JSON file:', err);
+      res.status(500).send('Error writing shapes JSON file');
+    } else {
+      console.log('JSON file published successfully!');
+      res.status(200).send('JSON file published');
+    }
+  });
+});
+
 // Start the server on port 3001
 const port = 3001;
 app.listen(port, () => {

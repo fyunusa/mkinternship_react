@@ -13,13 +13,11 @@ function CustomTextNode({ data, isConnectable }) {
     shapeChosen = selectedShape; // Assign value inside the if block
   }
 
-  console.log(shapeChosen)
-
   return (
     <div className={`text-updater-node ${shapeChosen}`}>
       <Handle type="target" isConnectable={isConnectable} />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <input id="text" name="text" className="nodrag" style={{ textAlign: 'center' }} />
+        <input id="text" name="text" value="Text" style={{ textAlign: 'center' }} />
       </div>
       <Handle
         type="source"
